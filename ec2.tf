@@ -44,6 +44,7 @@ module "ec2_instance" {
   ami = data.aws_ami.ubuntu.id
   vpc_security_group_ids = local.instance_sgs[each.key]
   user_data = each.key == "frontend" ? file("frontend.sh") : ""
+  iam_instance_profile = each.key == "database" ? aws_iam_instance_profile.database_ec2.name : null
   tags = {
     Terraform   = "true"
     Environment = var.env
