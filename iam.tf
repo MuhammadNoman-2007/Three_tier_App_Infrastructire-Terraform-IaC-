@@ -17,3 +17,14 @@ resource "aws_iam_role" "database_ec2_role" {
     ]
   })
 }
+resource "aws_iam_role_policy_attachment" "database_rds" {
+  role       = aws_iam_role.database_ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+}
+
+resource "aws_iam_instance_profile" "database_ec2" {
+  name = "${var.env}-database-ec2-profile"
+
+  role = aws_iam_role.database_ec2_role.name
+}
+
